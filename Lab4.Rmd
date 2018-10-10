@@ -1,0 +1,95 @@
+BSDS 5005 Lab
+Lecture 4 - 10/3/18 
+
+```{r}
+x <- c(1:4)
+standardize <- function(x, centered_only){
+  if(centered_only==TRUE){
+    stand_center <- vector(mode="numeric", length=0)
+    for(i in 1:length(x)){
+      stand_center[i] <- x[i] - mean(x)
+    }
+    return(stand_center)
+  }
+  
+  if(centered_only==FALSE){
+    stand_not_center <- vector(mode="numeric", length=0)
+    for (i in 1:length(x)){
+      stand_not_center[i] <- (x[i] - mean(x))/sd(x)
+    }
+    return(stand_not_center)
+  }
+}
+standardize(x, TRUE)
+standardize(x, FALSE)
+```
+
+```{r}
+y <- c(1:4,NA)
+standardize_no_na <- function(x, z=FALSE){
+  stand_not_center <- vector(mode="numeric", length=0)
+  for (i in 1:length(x)){
+    stand_not_center[i] <- (x[i] - mean(x,na.rm=z))/sd(x,na.rm=z)
+  }
+  return(stand_not_center)
+}
+
+standardize_no_na(y, TRUE)
+standardize_no_na(y)
+
+
+```
+
+```{r}
+mat <- matrix(1:16, nrow=4, ncol=4, byrow=FALSE)
+mat2 <- matrix(1:100,nrow=25, ncol=4, byrow=FALSE)
+matrix_sum <- function(y){
+  mat_sum <- 0
+  for(i in 1:nrow(y)){
+    for(j in 1:ncol(y)){
+      mat_sum <- mat_sum + y[i,j]
+    }
+  }
+  return(mat_sum)
+}
+matrix_sum(mat)
+matrix_sum(mat2)
+```
+
+```{r}
+curve(dnorm, from=-3, to=3, xlim=c(-3,6), lwd=2, col=4, axes=FALSE, xlab=NA, ylab=NA)
+curve(dnorm(x, mean=3.2), add=TRUE, col=2, lwd=2, from=0, to=6)
+coord.x <- c(qnorm(0.95), seq(qnorm(0.95), 0, by=-0.01), 0)
+coord.y <- c(0, dnorm(coord.x[-c(1, length(coord.x))], mean=3.2), 0)
+polygon(coord.x, coord.y, col=rgb(1, 0, 0, 0.5))
+coord.x <- c(qnorm(0.95), seq(qnorm(0.95), 3, by=0.01), 3)
+coord.y <- c(0, dnorm(coord.x[-c(1, length(coord.x))]), 0)
+polygon(coord.x, coord.y, col=rgb(0, 0, 1, 0.5))
+abline(v=qnorm(0.95), lty=2, lwd=2)
+text(1, 0.02, labels=expression(beta))
+text(2, 0.02, labels=expression(alpha), col="white")
+axis(1, at=c(0, 3.2), labels=c(expression(theta[0]), expression(theta[a])))
+axis(2)
+box()
+legend("topleft", c("Type I error", "Type II error"), fill=c(rgb(0, 0, 1, 0.5), rgb(1, 0, 0, 0.5)))
+```
+
+```{r}
+prime_checker <- function(x){
+  if (x == 2){
+    TRUE
+  } else if (any(x%%2:(x-1)==0)){
+    FALSE
+  } else {
+    TRUE
+  }
+}
+
+prime_checker(1)
+
+install.packages("numbers")
+library(numbers)
+sum(sapply(1:1000, prime_checker)) == sum(sapply(1:1000, isPrime))
+```
+
+
