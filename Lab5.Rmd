@@ -1,0 +1,72 @@
+# Lab 5 - Spencer Krichevsky
+```{r}
+# Question 1
+
+# The sample matrix
+A <- matrix(1:9, nrow=3)
+# The sample vector
+B <- c(1:3)
+# My function creates an empty matrix called results, checks to see if matrix x vector multiplication is possible, then stores the values of this multiplication in the results matrix
+mat_vec_mult <- function(A, B){
+  results <- matrix(nrow=length(B))
+  if (ncol(A) == length(B)){
+    for (i in 1:nrow(A)){
+      results[i,1] <- sum(A[i,1:ncol(A)]*B)
+    }
+    return(results)
+  }
+}
+
+# Test to ensure that function output matches scalar multiplication
+mat_vec_mult(A,B) == A%*%B
+
+# My function works for larger dimension matrixes/vectors also
+C <- matrix(1:16, nrow=4)
+D <- c(1:4)
+mat_vec_mult(C,D) == C%*%D
+
+```
+
+```{r}
+# Question 2
+
+# My function takes x, the # of throws, as its only argument. The outputs vector is a sample of 1:6 with replacement for x rounds. The output is printed and if any rounds produces a 6 the function returns "You win", or "You lost" if none of the rounds produces a 6.
+dice_throw <- function(x=4){
+  outputs <- sample(1:6, x, replace=TRUE)
+  print(outputs)
+  if(any(outputs==6)){
+    return("You win")
+  } else {
+    return("You lose")
+  }
+}
+# Test case
+dice_throw(10)
+
+# My modified function takes x, the # of throws, as its only argument. The outputs vector is a sample of 1:6 with replacement for x rounds. The proportion of winning rounds is then returned.
+dice_throw_prop <- function(x){
+  outputs <- sample(1:6, x, replace=TRUE)
+  return(sum(outputs==6)/length(outputs))
+}
+
+# Test n=1000, n=10000
+set.seed(1)
+dice_throw_prop(1000)
+# The proportion of wins in 1000 rounds is 0.168.
+dice_throw_prop(10000)
+# The proportion of wins in 10000 rounds in 0.174.
+```
+
+```{r}
+# Question 3
+
+# My function orders the input vector x using the sort function. It then indexes the first value of the sorted vector, y, and matches that value to the value in vector x.
+smallest_element <- function(x){
+  y <- sort(x)
+  cat(paste("The smallest number is:",y[1],"\nThe index of the smallest number is:",match(y[1],x)))
+}
+
+set.seed(1)
+x <- sample(1:100, 20, replace=FALSE)
+smallest_element(x)
+```
