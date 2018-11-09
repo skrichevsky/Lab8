@@ -1,0 +1,78 @@
+# Activity 8 - 10/31/18
+
+```{r}
+# Question 1. Re-format the code according to the style guide.
+
+# The code is now reformatted and easily readable
+prime <- function(n){
+  if(n%%1!=0 | n<0){
+    return(FALSE)
+  } else if (n==1){
+    return (FALSE)
+  } else if (n==2){
+    return (TRUE)
+  } else {
+    for(i in 2:(sqrt(n))){
+      if(n%%i==0){
+        return (FALSE)
+      }
+    }
+    return(TRUE)
+  }
+}
+prime(1)
+prime(2)
+prime(3)
+prime(4)
+prime(5)
+```
+
+```{r}
+# Question 2. Re-format and debug the function find_runs that finds consecutive ones in a given vector. 
+
+# The indexing of the for loop and if statement has been debugged so that the find_runs function performs as expected
+find_runs <- function(x, k){
+  n <- length(x)
+  runs <- NULL
+  for (i in 1:(n-k+1)){
+    if(all(x[i:(i+k-1)]==1)){
+      runs <- c(runs,i)
+    }
+  }
+  return(runs)
+}
+
+# Test function with random sample
+set.seed(123)
+x <- sample(c(0,1), replace=TRUE, size=20)
+x
+# Find 2 consecutive ones
+find_runs(x,2)
+# Find 3 consecutive ones
+find_runs(x,3)
+```
+
+```{r}
+# Question 3. Please debug the following function that should return a sorted vector in ascending order. For example, if the input for your function is the vector (3,1,2), then your function should return the vector (1,2,3).
+
+sort_vec <- function(x){
+  if(length(x) < 2){
+    return(x)
+  }
+  for(last in length(x):2){
+    for(first in 1:(last-1)){
+      if(x[first] > x[first+1]){
+        temp <- x[first]
+        x[first] <- x[first+1]
+        x[first+1] <- temp
+      }
+    }
+  }
+  return(x)
+}
+
+# Test function with random sample of 20 integers with maximum of 50
+set.seed(123)
+sort_vec(sample.int(50, 20, replace=TRUE))
+```
+
